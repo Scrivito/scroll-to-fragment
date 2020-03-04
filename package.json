@@ -1,0 +1,35 @@
+{
+  "dependencies": {
+    "@types/history": "^4.7.5"
+  },
+  "description": "Make single page apps scroll according to the current URL hash.",
+  "devDependencies": {
+    "prettier": "^1.19.1",
+    "typescript": "^3.8.3"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "scroll",
+    "fragment",
+    "hash",
+    "observer",
+    "spa",
+    "history",
+    "link",
+    "anchor"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "name": "scroll-to-fragment",
+  "peerDependencies": {},
+  "repository": "github:dcsaszar/scroll-to-fragment",
+  "scripts": {
+    "prepare": "rm -rf dist/* && tsc --build",
+    "watch": "tsc --watch"
+  },
+  "version": "1.0.0"
+}
