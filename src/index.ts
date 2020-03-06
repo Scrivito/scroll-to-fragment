@@ -3,12 +3,8 @@ import * as History from "history";
 interface Options {
   getElement?: (fragmentId: string) => Element | undefined;
   history?: History.History;
-  observeDomMutation?: boolean;
-  observeTimeoutMs?: number;
   scrollIntoView?: (element: Element) => void;
   scrollOnAnchorClick?: boolean;
-  scrollOnStart?: boolean;
-  stopOnInteraction?: boolean;
 }
 
 export function scrollToFragment(options: Options = {}) {
@@ -17,26 +13,20 @@ export function scrollToFragment(options: Options = {}) {
   currentOptions = {
     getElement: options.getElement ?? getElementById,
     history: options.history,
-    observeDomMutation: options.observeDomMutation ?? true,
-    observeTimeoutMs: options.observeTimeoutMs ?? 7000,
     scrollIntoView: options.scrollIntoView ?? scrollIntoView,
-    scrollOnAnchorClick: options.scrollOnAnchorClick ?? true,
-    scrollOnStart: options.scrollOnStart ?? true,
-    stopOnInteraction: options.stopOnInteraction ?? true
+    scrollOnAnchorClick: options.scrollOnAnchorClick ?? true
   };
 
   mount();
 }
 
 function mount() {
-  if (currentOptions.observeDomMutation) {
-    documentObserver = new MutationObserver(handleDomMutation);
-  }
+  documentObserver = new MutationObserver(handleDomMutation);
   if (currentOptions.scrollOnAnchorClick) {
     document.addEventListener("click", handleDocumentClick);
   }
   unlistenHistory = currentOptions.history?.listen(handleHistoryPush);
-  if (currentOptions.scrollOnStart) startObserving();
+  startObserving();
 }
 
 function unmount() {
@@ -51,24 +41,22 @@ function startObserving() {
   stopObserving();
   if (!location.hash) return;
 
-  if (currentOptions.stopOnInteraction) {
-    addEventListener("touchend", handleInteraction);
-    addEventListener("wheel", handleInteraction);
-    document.addEventListener("selectionchange", handleInteraction);
-  }
+  addEventListener("touchend", stopObserving);
+  addEventListener("wheel", stopObserving);
+  document.addEventListener("selectionchange", stopObserving);
   documentObserver?.observe(document, OBSERVER_CONFIG);
   adjustScrollPosition();
 
-  observeTimeout = setTimeout(stopObserving, currentOptions.observeTimeoutMs);
+  observeTimeout = setTimeout(stopObserving, OBSERVE_TIMEOUT_MS);
 }
 
 function stopObserving() {
   clearTimeout(observeTimeout);
   cancelAnimationFrame(throttleRequestId);
   documentObserver?.disconnect();
-  removeEventListener("touchend", handleInteraction);
-  removeEventListener("wheel", handleInteraction);
-  document.removeEventListener("selectionchange", handleInteraction);
+  removeEventListener("touchend", stopObserving);
+  removeEventListener("wheel", stopObserving);
+  document.removeEventListener("selectionchange", stopObserving);
 }
 
 function handleHistoryPush(
@@ -86,10 +74,6 @@ function handleDocumentClick(event: Event) {
 
 function handleDomMutation() {
   throttle(adjustScrollPosition);
-}
-
-function handleInteraction() {
-  stopObserving();
 }
 
 function adjustScrollPosition() {
@@ -124,3 +108,5 @@ const OBSERVER_CONFIG = {
   childList: true,
   subtree: true
 };
+
+const OBSERVE_TIMEOUT_MS = 10000;

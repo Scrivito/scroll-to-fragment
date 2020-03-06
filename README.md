@@ -34,18 +34,10 @@ scrollToFragment({
   getElement: fragmentId => document.getElementsByName(fragmentId)[0],
   // adjust the scroll position after history PUSH events:
   history: createBrowserHistory(),
-  // don't automatically adjust the scroll position after DOM mutations:
-  observeDomMutation: false,
-  // stop adjusting the scroll position after 1 second (default is 7 s):
-  observeTimeoutMs: 1000,
   // customize scrolling behavior:
   scrollIntoView: element => element.scrollIntoView({ behavior: "smooth" }),
   // don't automatically adjust the scroll position after <A> tag clicks:
-  scrollOnAnchorClick: false,
-  // don't adjust the scroll position immediately:
-  scrollOnStart: false,
-  // keep adjusting the scroll position after mousewheel, touch, and select events:
-  stopOnInteraction: false
+  scrollOnAnchorClick: false
 });
 ```
 
