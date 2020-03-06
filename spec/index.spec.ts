@@ -57,7 +57,7 @@ describe("scrollToFragment", () => {
 
   describe("with a URL hash but no matching fragment", () => {
     beforeEach(() => {
-      location.hash = "barbaz";
+      history.replaceState(null, null, "index.html#barbaz");
       scrollToFragment();
     });
 
@@ -76,14 +76,13 @@ describe("scrollToFragment", () => {
         setTimeout(() => {
           expect(window.scrollY).toBeCloseTo(10200, -3);
           done();
-        }, WAIT);
+        }, LONG_WAIT);
       });
     });
   });
 
   describe("without a URL hash", () => {
     beforeEach(() => {
-      location.hash = "";
       scrollToFragment();
     });
 
@@ -93,4 +92,5 @@ describe("scrollToFragment", () => {
   });
 });
 
-const WAIT = 50;
+const WAIT = 20;
+const LONG_WAIT = 90;

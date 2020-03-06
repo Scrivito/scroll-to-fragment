@@ -6,6 +6,8 @@ module.exports = function(config) {
       "**/*.ts": ["karma-typescript"]
     },
     reporters: ["progress", "karma-typescript"],
-    browsers: [process.env.KARMA_BROWSER || "ChromeHeadless"]
+    browsers: process.env.KARMA_BROWSER
+      ? process.env.KARMA_BROWSER.split(",")
+      : ["ChromeHeadless", "FirefoxHeadless"]
   });
 };

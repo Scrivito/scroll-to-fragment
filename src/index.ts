@@ -67,7 +67,7 @@ function handleDocumentClick(event: Event) {
 
   const anchor = event.target as HTMLAnchorElement;
   if (anchor.href.replace(/#.*/, "") === location.href.replace(/#.*/, "")) {
-    throttle(startObserving);
+    startObserving();
   }
 }
 
