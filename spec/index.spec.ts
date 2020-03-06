@@ -36,7 +36,7 @@ describe("scrollToFragment", () => {
         setTimeout(() => {
           expect(window.scrollY).toEqual(444);
           done();
-        }, 20);
+        }, WAIT);
       });
     });
 
@@ -50,7 +50,7 @@ describe("scrollToFragment", () => {
         setTimeout(() => {
           expect(window.scrollY).toBeCloseTo(10200, -3);
           done();
-        }, 20);
+        }, WAIT);
       });
     });
   });
@@ -76,7 +76,7 @@ describe("scrollToFragment", () => {
         setTimeout(() => {
           expect(window.scrollY).toBeCloseTo(10200, -3);
           done();
-        }, 20);
+        }, WAIT);
       });
     });
   });
@@ -92,3 +92,5 @@ describe("scrollToFragment", () => {
     });
   });
 });
+
+const WAIT = 50;
