@@ -8,9 +8,11 @@ describe("scrollToFragment", () => {
       `<h1 style="height:200px">H1</h1>
       <p style="height:10000px">Lorem</p>
       <h2 style="height:200px" id="foobar">H2</h2>
-      <p id="bottom" style=""eight:1000px">Ipsum</p>`
+      <p id="bottom" style=""eight:1000px">Ipsum</p>
+      <a href="other.html#top" id="other" onclick="return false">Other page</a>
+      <a href="index.html#bottom" id="same" onclick="return false">Same page</a>`
     );
-    location.hash = "";
+    history.replaceState(null, null, "index.html");
     window.scrollTo(0, 333);
   });
 
@@ -22,6 +24,34 @@ describe("scrollToFragment", () => {
 
     it("scrolls to the matching element", () => {
       expect(window.scrollY).toBeCloseTo(10200, -3);
+    });
+
+    describe("clicking a link to a different page", () => {
+      beforeEach(() => {
+        window.scrollTo(0, 444);
+        document.getElementById("other").click();
+      });
+
+      it("keeps the scroll position unchanged", done => {
+        setTimeout(() => {
+          expect(window.scrollY).toEqual(444);
+          done();
+        }, 20);
+      });
+    });
+
+    describe("clicking a hash link to the same page", () => {
+      beforeEach(() => {
+        window.scrollTo(0, 444);
+        document.getElementById("same").click();
+      });
+
+      it("scrolls to the matching element", done => {
+        setTimeout(() => {
+          expect(window.scrollY).toBeCloseTo(10200, -3);
+          done();
+        }, 20);
+      });
     });
   });
 

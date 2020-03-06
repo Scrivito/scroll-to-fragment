@@ -4,7 +4,6 @@ interface Options {
   getElement?: (fragmentId: string) => Element | undefined;
   history?: History.History;
   scrollIntoView?: (element: Element) => void;
-  scrollOnAnchorClick?: boolean;
 }
 
 export function scrollToFragment(options: Options = {}) {
@@ -13,8 +12,7 @@ export function scrollToFragment(options: Options = {}) {
   currentOptions = {
     getElement: options.getElement ?? getElementById,
     history: options.history,
-    scrollIntoView: options.scrollIntoView ?? scrollIntoView,
-    scrollOnAnchorClick: options.scrollOnAnchorClick ?? true
+    scrollIntoView: options.scrollIntoView ?? scrollIntoView
   };
 
   mount();
@@ -22,9 +20,7 @@ export function scrollToFragment(options: Options = {}) {
 
 function mount() {
   documentObserver = new MutationObserver(handleDomMutation);
-  if (currentOptions.scrollOnAnchorClick) {
-    document.addEventListener("click", handleDocumentClick);
-  }
+  document.addEventListener("click", handleDocumentClick);
   unlistenHistory = currentOptions.history?.listen(handleHistoryPush);
   startObserving();
 }
@@ -67,7 +63,10 @@ function handleHistoryPush(
 }
 
 function handleDocumentClick(event: Event) {
-  if ((event.target as Node).nodeName === "A") {
+  if ((event.target as Node).nodeName !== "A") return;
+
+  const anchor = event.target as HTMLAnchorElement;
+  if (anchor.href.replace(/#.*/, "") === location.href.replace(/#.*/, "")) {
     throttle(startObserving);
   }
 }

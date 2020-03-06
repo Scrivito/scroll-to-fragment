@@ -35,9 +35,7 @@ scrollToFragment({
   // adjust the scroll position after history PUSH events:
   history: createBrowserHistory(),
   // customize scrolling behavior:
-  scrollIntoView: element => element.scrollIntoView({ behavior: "smooth" }),
-  // don't automatically adjust the scroll position after <A> tag clicks:
-  scrollOnAnchorClick: false
+  scrollIntoView: element => element.scrollIntoView({ behavior: "smooth" })
 });
 ```
 
