@@ -1,6 +1,7 @@
-## Scroll to fragment
+## Scroll to fragment [![Generic badge](https://travis-ci.org/dcsaszar/scroll-to-fragment.svg?branch=master)](https://travis-ci.org/dcsaszar/scroll-to-fragment)
 
 Make single page apps scroll according to the current URL hash.
+
 
 This helper emulates browser URL hash scrolling behavior for single page apps (SPA).
 Apart from updating the scroll position on load, it can listen to clicks and browser history changes.
