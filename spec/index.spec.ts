@@ -1,7 +1,7 @@
 import { scrollToFragment } from "../src/index";
 
 describe("scrollToFragment", () => {
-  beforeEach(() => {
+  beforeEach(done => {
     document.body.innerHTML = "";
     document.body.insertAdjacentHTML(
       "beforeend",
@@ -14,6 +14,7 @@ describe("scrollToFragment", () => {
     );
     history.replaceState(null, null, "index.html");
     window.scrollTo(0, 333);
+    wait(done);
   });
 
   describe("with a URL hash", () => {
@@ -27,30 +28,26 @@ describe("scrollToFragment", () => {
     });
 
     describe("clicking a link to a different page", () => {
-      beforeEach(() => {
+      beforeEach(done => {
         window.scrollTo(0, 444);
         document.getElementById("other").click();
+        wait(done);
       });
 
-      it("keeps the scroll position unchanged", done => {
-        setTimeout(() => {
-          expect(window.scrollY).toEqual(444);
-          done();
-        }, WAIT);
+      it("keeps the scroll position unchanged", () => {
+        expect(window.scrollY).toEqual(444);
       });
     });
 
     describe("clicking a hash link to the same page", () => {
-      beforeEach(() => {
+      beforeEach(done => {
         window.scrollTo(0, 444);
         document.getElementById("same").click();
+        wait(done);
       });
 
-      it("scrolls to the matching element", done => {
-        setTimeout(() => {
-          expect(window.scrollY).toBeCloseTo(10200, -3);
-          done();
-        }, WAIT);
+      it("scrolls to the matching element", () => {
+        expect(window.scrollY).toBeCloseTo(10200, -3);
       });
     });
   });
@@ -66,17 +63,15 @@ describe("scrollToFragment", () => {
     });
 
     describe("if the fragment appears later", () => {
-      beforeEach(() => {
+      beforeEach(done => {
         document
           .getElementById("bottom")
           .insertAdjacentHTML("beforebegin", "<h1 id='barbaz'>H1</h1>");
+        wait(done);
       });
 
-      it("scrolls to the matching element", done => {
-        setTimeout(() => {
-          expect(window.scrollY).toBeCloseTo(10200, -3);
-          done();
-        }, LONG_WAIT);
+      it("scrolls to the matching element", () => {
+        expect(window.scrollY).toBeCloseTo(10200, -3);
       });
     });
   });
@@ -92,5 +87,6 @@ describe("scrollToFragment", () => {
   });
 });
 
-const WAIT = 20;
-const LONG_WAIT = 90;
+function wait(done: () => void) {
+  requestAnimationFrame(() => requestAnimationFrame(done));
+}
