@@ -4,7 +4,7 @@ Make single page apps scroll according to the current URL hash.
 
 This helper emulates browser URL hash scrolling behavior for single page apps (SPA).
 Apart from updating the scroll position on load, it can listen to clicks and browser history changes.
-To keep the fragment in line with asynchronouly updated content (for example in a ReactJS based app) it adjusts the scroll position on DOM mutations.
+To keep the fragment in line with asynchronously updated content (for example in a ReactJS based app) it adjusts the scroll position on DOM mutations.
 
 ## Installation
 
@@ -18,6 +18,7 @@ In your app's initialization code, for example in `index.js`:
 
 ```js
 import { scrollToFragment } from "scroll-to-fragment";
+
 scrollToFragment();
 ```
 
@@ -32,8 +33,10 @@ import { createBrowserHistory } from "history";
 scrollToFragment({
   // customize the target of a given fragment ID (default is getElementById):
   getElement: fragmentId => document.getElementsByName(fragmentId)[0],
+  
   // adjust the scroll position after history PUSH events:
   history: createBrowserHistory(),
+  
   // customize scrolling behavior:
   scrollIntoView: element => element.scrollIntoView({ behavior: "smooth" })
 });
