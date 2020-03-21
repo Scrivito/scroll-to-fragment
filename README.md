@@ -1,4 +1,4 @@
-# Scroll to fragment [![Build status](https://travis-ci.org/dcsaszar/scroll-to-fragment.svg?branch=master)](https://travis-ci.org/dcsaszar/scroll-to-fragment) [![Package size](https://badgen.net/bundlephobia/minzip/scroll-to-fragment)](https://bundlephobia.com/result?p=scroll-to-fragment)
+# Scroll to fragment [![Build status](https://travis-ci.org/dcsaszar/scroll-to-fragment.svg?branch=master)](https://travis-ci.org/dcsaszar/scroll-to-fragment) [![Package size](https://badgen.net/bundlephobia/minzip/scroll-to-fragment)](https://bundlephobia.com/result?p=scroll-to-fragment) [![Supported by Scrivito](https://badgen.net/badge/%E2%99%A5%20supported%20by/Scrivito/1BAE61)](https://www.scrivito.com/)
 
 Make single page apps scroll according to the current URL hash.
 
