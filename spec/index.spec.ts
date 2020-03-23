@@ -1,7 +1,7 @@
 import { scrollToFragment } from "../src/index";
 
 describe("scrollToFragment", () => {
-  beforeEach(done => {
+  beforeEach((done) => {
     document.body.innerHTML = "";
     document.body.insertAdjacentHTML(
       "beforeend",
@@ -28,7 +28,7 @@ describe("scrollToFragment", () => {
     });
 
     describe("clicking a link to a different page", () => {
-      beforeEach(done => {
+      beforeEach((done) => {
         window.scrollTo(0, 444);
         document.getElementById("other").click();
         wait(done);
@@ -40,7 +40,7 @@ describe("scrollToFragment", () => {
     });
 
     describe("clicking a hash link to the same page", () => {
-      beforeEach(done => {
+      beforeEach((done) => {
         window.scrollTo(0, 444);
         document.getElementById("same").click();
         wait(done);
@@ -63,7 +63,7 @@ describe("scrollToFragment", () => {
     });
 
     describe("if the fragment appears later", () => {
-      beforeEach(done => {
+      beforeEach((done) => {
         document
           .getElementById("bottom")
           .insertAdjacentHTML("beforebegin", "<h1 id='barbaz'>H1</h1>");

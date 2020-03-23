@@ -12,7 +12,7 @@ export function scrollToFragment(options: Options = {}) {
   currentOptions = {
     getElement: options.getElement ?? getElementById,
     history: options.history,
-    scrollIntoView: options.scrollIntoView ?? scrollIntoView
+    scrollIntoView: options.scrollIntoView ?? scrollIntoView,
   };
 
   mount();
@@ -105,7 +105,7 @@ const OBSERVER_CONFIG = {
   attributes: true,
   characterData: true,
   childList: true,
-  subtree: true
+  subtree: true,
 };
 
 const OBSERVE_TIMEOUT_MS = 10000;

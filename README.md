@@ -32,13 +32,13 @@ import { createBrowserHistory } from "history";
 
 scrollToFragment({
   // customize the target of a given fragment ID (default is getElementById):
-  getElement: fragmentId => document.getElementsByName(fragmentId)[0],
-  
+  getElement: (fragmentId) => document.getElementsByName(fragmentId)[0],
+
   // adjust the scroll position after history PUSH events:
   history: createBrowserHistory(),
-  
+
   // customize scrolling behavior:
-  scrollIntoView: element => element.scrollIntoView({ behavior: "smooth" })
+  scrollIntoView: (element) => element.scrollIntoView({ behavior: "smooth" }),
 });
 ```
 
