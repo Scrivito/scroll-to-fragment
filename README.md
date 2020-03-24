@@ -1,10 +1,17 @@
-# Scroll to fragment [![Build status](https://travis-ci.org/dcsaszar/scroll-to-fragment.svg?branch=master)](https://travis-ci.org/dcsaszar/scroll-to-fragment) [![Package size](https://badgen.net/bundlephobia/minzip/scroll-to-fragment)](https://bundlephobia.com/result?p=scroll-to-fragment) [![Supported by Scrivito](https://badgen.net/badge/%E2%99%A5%20supported%20by/Scrivito/1BAE61)](https://www.scrivito.com/)
+# Scroll to fragment
 
-Make single page apps scroll according to the current URL hash.
+[![Build status](https://travis-ci.org/Scrivito/scroll-to-fragment.svg?branch=master)](https://travis-ci.org/github/Scrivito/scroll-to-fragment)
+[![Package size](https://badgen.net/bundlephobia/minzip/scroll-to-fragment)](https://bundlephobia.com/result?p=scroll-to-fragment)
+[![Supported by Scrivito](https://badgen.net/badge/%E2%99%A5%20supported%20by/Scrivito/1BAE61)](https://www.scrivito.com/?utm_source=npm&utm_medium=natural&utm_campaign=scroll-to-fragment)
 
-This helper emulates browser URL hash scrolling behavior for single page apps (SPA).
-Apart from updating the scroll position on load, it can listen to clicks and browser history changes.
-To keep the fragment in line with asynchronously updated content (for example in a ReactJS based app) it adjusts the scroll position on DOM mutations.
+Make single page apps scroll to the current URL hash.
+
+When you follow a link that ends with a hash fragment (https://example.com#my-headline) on a traditional server-side-rendered (SSR) website, the browser automatically scrolls to the matching element.
+With JavaScript-driven single page apps (SPA), current browsers do not scroll by default.
+
+This helper provides single page apps with the classic scrolling behavior.
+It updates the scroll position on load, and checks for updates on clicks and browser history changes.
+To keep the fragment in line with asynchronously updated content (for example in a ReactJS based app) it also adjusts the scroll position on DOM changes.
 
 ## Installation
 

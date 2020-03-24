@@ -35,11 +35,11 @@
   "types": "dist/index.d.ts",
   "name": "scroll-to-fragment",
   "peerDependencies": {},
-  "repository": "github:dcsaszar/scroll-to-fragment",
+  "repository": "github:Scrivito/scroll-to-fragment",
   "scripts": {
     "prepare": "rm -rf dist/* && npm test && tsc --build",
     "test": "karma start --single-run",
     "watch": "karma start"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
