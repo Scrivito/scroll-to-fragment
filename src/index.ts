@@ -39,7 +39,7 @@ function startObserving() {
 
   addEventListener("touchend", stopObserving);
   addEventListener("wheel", stopObserving);
-  document.addEventListener("selectionchange", stopObserving);
+  document.addEventListener("selectstart", stopObserving);
   documentObserver?.observe(document, OBSERVER_CONFIG);
   adjustScrollPosition();
 
