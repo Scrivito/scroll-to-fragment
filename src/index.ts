@@ -66,8 +66,10 @@ function handleDocumentClick(event: Event) {
   if ((event.target as Node).nodeName !== "A") return;
 
   const anchor = event.target as HTMLAnchorElement;
+  if (anchor.href.indexOf("#") === -1) return;
+
   if (anchor.href.replace(/#.*/, "") === location.href.replace(/#.*/, "")) {
-    startObserving();
+    throttle(startObserving);
   }
 }
 

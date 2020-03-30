@@ -8,9 +8,11 @@ describe("scrollToFragment", () => {
       `<h1 style="height:200px">H1</h1>
       <p style="height:10000px">Lorem</p>
       <h2 style="height:200px" id="foobar">H2</h2>
-      <p id="bottom" style=""eight:1000px">Ipsum</p>
+      <p id="bottom" style="height:1000px">Ipsum</p>
       <a href="other.html#top" id="other" onclick="return false">Other page</a>
-      <a href="index.html#bottom" id="same" onclick="return false">Same page</a>`
+      <a href="index.html#bottom" id="same" onclick="return false">Same page</a>
+      <a href="#bottom" id="hashOnly">Hash only</a>
+      `
     );
     history.replaceState(null, null, "index.html");
     window.scrollTo(0, 333);
@@ -18,9 +20,10 @@ describe("scrollToFragment", () => {
   });
 
   describe("with a URL hash", () => {
-    beforeEach(() => {
+    beforeEach((done) => {
       location.hash = "foobar";
       scrollToFragment();
+      wait(done);
     });
 
     it("scrolls to the matching element", () => {
@@ -53,9 +56,10 @@ describe("scrollToFragment", () => {
   });
 
   describe("with a URL hash but no matching fragment", () => {
-    beforeEach(() => {
+    beforeEach((done) => {
       history.replaceState(null, null, "index.html#barbaz");
       scrollToFragment();
+      wait(done);
     });
 
     it("keeps the scroll position unchanged", () => {
@@ -77,12 +81,25 @@ describe("scrollToFragment", () => {
   });
 
   describe("without a URL hash", () => {
-    beforeEach(() => {
+    beforeEach((done) => {
       scrollToFragment();
+      wait(done);
     });
 
     it("keeps the scroll position unchanged", () => {
       expect(window.scrollY).toEqual(333);
+    });
+  });
+
+  describe("with scrollIntoView", () => {
+    beforeEach((done) => {
+      scrollToFragment({ scrollIntoView: () => window.scrollTo(0, 42) });
+      document.getElementById("hashOnly").click();
+      wait(done);
+    });
+
+    it("scrolls according to the callback, overriding the browser default", () => {
+      expect(window.scrollY).toBe(42);
     });
   });
 });
