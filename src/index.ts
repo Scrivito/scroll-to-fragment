@@ -39,7 +39,7 @@ function startObserving() {
 
   addEventListener("touchend", stopObserving);
   addEventListener("wheel", stopObserving);
-  document.addEventListener("selectionchange", stopObserving);
+  document.addEventListener("selectstart", stopObserving);
   documentObserver?.observe(document, OBSERVER_CONFIG);
   adjustScrollPosition();
 
@@ -66,8 +66,10 @@ function handleDocumentClick(event: Event) {
   if ((event.target as Node).nodeName !== "A") return;
 
   const anchor = event.target as HTMLAnchorElement;
+  if (anchor.href.indexOf("#") === -1) return;
+
   if (anchor.href.replace(/#.*/, "") === location.href.replace(/#.*/, "")) {
-    startObserving();
+    throttle(startObserving);
   }
 }
 
