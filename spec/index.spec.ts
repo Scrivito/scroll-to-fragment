@@ -38,7 +38,7 @@ describe("scrollToFragment", () => {
       });
 
       it("keeps the scroll position unchanged", () => {
-        expect(window.scrollY).toEqual(444);
+        expect(window.scrollY).toBeCloseTo(444, -1);
       });
     });
 
@@ -63,7 +63,7 @@ describe("scrollToFragment", () => {
     });
 
     it("keeps the scroll position unchanged", () => {
-      expect(window.scrollY).toEqual(333);
+      expect(window.scrollY).toBeCloseTo(333, -1);
     });
 
     describe("if the fragment appears later", () => {
@@ -87,7 +87,7 @@ describe("scrollToFragment", () => {
     });
 
     it("keeps the scroll position unchanged", () => {
-      expect(window.scrollY).toEqual(333);
+      expect(window.scrollY).toBeCloseTo(333, -1);
     });
   });
 
@@ -104,6 +104,7 @@ describe("scrollToFragment", () => {
   });
 });
 
-function wait(done: () => void) {
-  requestAnimationFrame(() => requestAnimationFrame(done));
+function wait(done: () => void, frames: number = 3) {
+  if (frames === 0) done();
+  else requestAnimationFrame(() => wait(done, frames - 1));
 }
