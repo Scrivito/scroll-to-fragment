@@ -60,7 +60,6 @@ function handleHistoryPush(
   action: History.Action
 ) {
   if (action === "PUSH") startObserving();
-  else stopObserving();
 }
 
 function handleDocumentClick(event: Event) {

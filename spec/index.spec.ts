@@ -1,6 +1,7 @@
 import { scrollToFragment } from "../src/index";
+import { createBrowserHistory, History } from "history";
 
-describe("scrollToFragment", () => {
+describe("scrollToFragment", function (this: { history: History }) {
   beforeEach((done) => {
     document.body.innerHTML = "";
     document.body.insertAdjacentHTML(
@@ -8,10 +9,10 @@ describe("scrollToFragment", () => {
       `<h1 style="height:200px">H1</h1>
       <p style="height:10000px">Lorem</p>
       <h2 style="height:200px" id="foobar">H2</h2>
-      <p id="bottom" style="height:1000px">Ipsum</p>
+      <p id="bottom10400" style="height:1000px">Ipsum</p>
       <a href="other.html#top" id="other" onclick="return false">Other page</a>
-      <a href="index.html#bottom" id="same" onclick="return false">Same page</a>
-      <a href="#bottom" id="hashOnly">Hash only</a>
+      <a href="index.html#bottom10400" id="same" onclick="return false">Same page</a>
+      <a href="#bottom10400" id="hashOnly">Hash only</a>
       `
     );
     history.replaceState(null, null, "index.html");
@@ -27,7 +28,7 @@ describe("scrollToFragment", () => {
     });
 
     it("scrolls to the matching element", () => {
-      expect(window.scrollY).toBeCloseTo(10200, -3);
+      expect(window.scrollY).toBeCloseTo(10400, -3);
     });
 
     describe("clicking a link to a different page", () => {
@@ -50,7 +51,7 @@ describe("scrollToFragment", () => {
       });
 
       it("scrolls to the matching element", () => {
-        expect(window.scrollY).toBeCloseTo(10200, -3);
+        expect(window.scrollY).toBeCloseTo(10400, -3);
       });
     });
   });
@@ -69,13 +70,13 @@ describe("scrollToFragment", () => {
     describe("if the fragment appears later", () => {
       beforeEach((done) => {
         document
-          .getElementById("bottom")
+          .getElementById("bottom10400")
           .insertAdjacentHTML("beforebegin", "<h1 id='barbaz'>H1</h1>");
         wait(done);
       });
 
       it("scrolls to the matching element", () => {
-        expect(window.scrollY).toBeCloseTo(10200, -3);
+        expect(window.scrollY).toBeCloseTo(10400, -3);
       });
     });
   });
@@ -93,13 +94,46 @@ describe("scrollToFragment", () => {
 
   describe("with scrollIntoView", () => {
     beforeEach((done) => {
-      scrollToFragment({ scrollIntoView: () => window.scrollTo(0, 42) });
+      scrollToFragment({ scrollIntoView: () => window.scrollTo(0, 123) });
       document.getElementById("hashOnly").click();
       wait(done);
     });
 
     it("scrolls according to the callback, overriding the browser default", () => {
-      expect(window.scrollY).toBe(42);
+      expect(window.scrollY).toBeCloseTo(123, -1);
+    });
+  });
+
+  describe("with history", () => {
+    beforeEach(() => {
+      this.history = createBrowserHistory();
+    });
+
+    describe("on click", () => {
+      beforeEach((done) => {
+        scrollToFragment({
+          history: this.history,
+          scrollIntoView: () => window.scrollTo(0, 123),
+        });
+        document.getElementById("hashOnly").click();
+        wait(done);
+      });
+
+      it("scrolls, overriding the browser default", () => {
+        expect(window.scrollY).toBeCloseTo(123, -1);
+      });
+    });
+
+    describe("on PUSH", () => {
+      beforeEach((done) => {
+        scrollToFragment({ history: this.history });
+        this.history.push("other.html#bottom10400");
+        wait(done);
+      });
+
+      it("scrolls to the matching element", () => {
+        expect(window.scrollY).toBeCloseTo(10400, -3);
+      });
     });
   });
 });
