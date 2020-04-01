@@ -63,14 +63,17 @@ function handleHistoryPush(
 }
 
 function handleDocumentClick(event: Event) {
-  if ((event.target as Node).nodeName !== "A") return;
-
-  const anchor = event.target as HTMLAnchorElement;
-  if (anchor.href.indexOf("#") === -1) return;
-
+  const anchor = closestAIncludingSelf(event.target as HTMLElement);
+  if (!anchor || anchor.href.indexOf("#") === -1) return;
   if (anchor.href.replace(/#.*/, "") === location.href.replace(/#.*/, "")) {
     throttle(startObserving);
   }
+}
+
+function closestAIncludingSelf(element?: HTMLElement) {
+  let target = element;
+  while (target && target.nodeName !== "A") target = target.parentElement;
+  return target as HTMLAnchorElement | void;
 }
 
 function handleDomMutation() {

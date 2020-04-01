@@ -13,6 +13,7 @@ describe("scrollToFragment", function (this: { history: History }) {
       <a href="other.html#top" id="other" onclick="return false">Other page</a>
       <a href="index.html#bottom10400" id="same" onclick="return false">Same page</a>
       <a href="#bottom10400" id="hashOnly">Hash only</a>
+      <a href="#bottom10400"><span id="spanInA">Nested</span></a>
       `
     );
     history.replaceState(null, null, "index.html");
@@ -78,6 +79,18 @@ describe("scrollToFragment", function (this: { history: History }) {
       it("scrolls to the matching element", () => {
         expect(window.scrollY).toBeCloseTo(10400, -3);
       });
+    });
+  });
+
+  describe("clicking an element wrapped by a hash link", () => {
+    beforeEach((done) => {
+      scrollToFragment({ scrollIntoView: () => window.scrollTo(0, 123) });
+      document.getElementById("spanInA").click();
+      wait(done);
+    });
+
+    it("scrolls, overriding the browser default", () => {
+      expect(window.scrollY).toBeCloseTo(123, -1);
     });
   });
 
