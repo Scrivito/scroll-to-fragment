@@ -2,6 +2,8 @@
 
 [![Build status](https://travis-ci.org/Scrivito/scroll-to-fragment.svg?branch=master)](https://travis-ci.org/github/Scrivito/scroll-to-fragment)
 [![Package size](https://badgen.net/bundlephobia/minzip/scroll-to-fragment)](https://bundlephobia.com/result?p=scroll-to-fragment)
+[![NPM Version](https://badgen.net/npm/v/scroll-to-fragment)](https://www.npmjs.com/package/scroll-to-fragment)
+[![Types included](https://badgen.net/npm/types/scroll-to-fragment)](https://www.npmjs.com/package/scroll-to-fragment)
 [![Supported by Scrivito](https://badgen.net/badge/%E2%99%A5%20supported%20by/Scrivito/1BAE61)](https://www.scrivito.com/?utm_source=npm&utm_medium=natural&utm_campaign=scroll-to-fragment)
 
 Make single page apps scroll to the current URL hash.
