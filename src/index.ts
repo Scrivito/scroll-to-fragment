@@ -52,7 +52,7 @@ function stopObserving() {
   documentObserver?.disconnect();
   document.removeEventListener("touchend", stopObserving);
   document.removeEventListener("wheel", stopObserving);
-  document.removeEventListener("selectionchange", stopObserving);
+  document.removeEventListener("selectstart", stopObserving);
 }
 
 function handleHistoryPush(
