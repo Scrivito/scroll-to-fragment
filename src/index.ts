@@ -37,9 +37,7 @@ function startObserving() {
   stopObserving();
   if (!location.hash) return;
 
-  document.addEventListener("touchend", stopObserving);
-  document.addEventListener("wheel", stopObserving);
-  document.addEventListener("selectstart", stopObserving);
+  STOP_EVENTS.forEach(addStopListener);
   documentObserver?.observe(document, OBSERVER_CONFIG);
   adjustScrollPosition();
 
@@ -50,9 +48,15 @@ function stopObserving() {
   clearTimeout(observeTimeout);
   cancelAnimationFrame(throttleRequestId);
   documentObserver?.disconnect();
-  document.removeEventListener("touchend", stopObserving);
-  document.removeEventListener("wheel", stopObserving);
-  document.removeEventListener("selectstart", stopObserving);
+  STOP_EVENTS.forEach(removeStopListener);
+}
+
+function addStopListener(eventName: string) {
+  document.addEventListener(eventName, stopObserving);
+}
+
+function removeStopListener(eventName: string) {
+  document.removeEventListener(eventName, stopObserving);
 }
 
 function handleHistoryPush(
@@ -114,3 +118,4 @@ const OBSERVER_CONFIG = {
 };
 
 const OBSERVE_TIMEOUT_MS = 10000;
+const STOP_EVENTS = ["selectstart", "touchend", "wheel"];
