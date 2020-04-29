@@ -36,6 +36,7 @@ function unmount() {
 function startObserving() {
   stopObserving();
   if (!location.hash) return;
+  console.log(`scroll-to-fragment 🚀 start`);
 
   STOP_EVENTS.forEach(addStopListener);
   documentObserver?.observe(document, OBSERVER_CONFIG);
@@ -45,6 +46,8 @@ function startObserving() {
 }
 
 function stopObserving() {
+  console.log(`scroll-to-fragment 🖐 stop`, arguments[0]);
+
   clearTimeout(observeTimeout);
   cancelAnimationFrame(throttleRequestId);
   documentObserver?.disconnect();
@@ -63,10 +66,13 @@ function handleHistoryPush(
   _location: History.Location<{}>,
   action: History.Action
 ) {
+  console.log(`scroll-to-fragment 🏟 history: ${action} ${location.href}`);
   if (action === "PUSH") startObserving();
 }
 
 function handleDocumentClick(event: Event) {
+  console.log("scroll-to-fragment 🔗 click", event.defaultPrevented);
+
   if (event.defaultPrevented) return;
 
   const anchor = closestAIncludingSelf(event.target as HTMLElement);
@@ -84,6 +90,7 @@ function closestAIncludingSelf(element?: HTMLElement) {
 }
 
 function handleDomMutation() {
+  console.log("scroll-to-fragment 🦕 mutation");
   throttle(adjustScrollPosition);
 }
 
@@ -100,6 +107,7 @@ function getElementById(id: string) {
 
 function scrollIntoView(element: Element) {
   element.scrollIntoView();
+  console.log("scroll-to-fragment 🏎 show");
 }
 
 function throttle(callback: () => void) {
