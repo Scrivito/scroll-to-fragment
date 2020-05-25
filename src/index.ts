@@ -20,14 +20,14 @@ export function scrollToFragment(options: Options = {}) {
 
 function mount() {
   documentObserver = new MutationObserver(handleDomMutation);
-  document.addEventListener("click", handleDocumentClick);
+  addEventListener("click", handleDocumentClick);
   unlistenHistory = currentOptions.history?.listen(handleHistoryPush);
   startObserving();
 }
 
 function unmount() {
   stopObserving();
-  document.removeEventListener("click", handleDocumentClick);
+  removeEventListener("click", handleDocumentClick);
   if (unlistenHistory) unlistenHistory();
   unlistenHistory = undefined;
   documentObserver = undefined;
@@ -67,8 +67,11 @@ function handleHistoryPush(
 }
 
 function handleDocumentClick(event: Event) {
+  if (event.defaultPrevented) return;
+
   const anchor = closestAIncludingSelf(event.target as HTMLElement);
   if (!anchor || anchor.href.indexOf("#") === -1) return;
+  console.log(anchor.href, location.href);
   if (anchor.href.replace(/#.*/, "") === location.href.replace(/#.*/, "")) {
     throttle(startObserving);
   }

@@ -10,8 +10,8 @@ describe("scrollToFragment", function (this: { history: History }) {
       <p style="height:10000px">Lorem</p>
       <h2 style="height:200px" id="foobar">H2</h2>
       <p id="bottom10400" style="height:1000px">Ipsum</p>
-      <a href="other.html#top" id="other" onclick="return false">Other page</a>
-      <a href="index.html#bottom10400" id="same" onclick="return false">Same page</a>
+      <a href="javascript://#top" id="other">Other page</a>
+      <a href="index.html#bottom10400" id="same">Same page</a>
       <a href="#bottom10400" id="hashOnly">Hash only</a>
       <a href="#bottom10400"><span id="spanInA">Nested</span></a>
       `
@@ -53,6 +53,26 @@ describe("scrollToFragment", function (this: { history: History }) {
 
       it("scrolls to the matching element", () => {
         expect(window.scrollY).toBeCloseTo(10400, -3);
+      });
+    });
+
+    describe("clicking a hash link with defaultPrevented", () => {
+      const listener = (event) => {
+        const id = (event.target as Element).id;
+        if (id === "same") event.preventDefault();
+      };
+
+      beforeEach((done) => {
+        window.scrollTo(0, 444);
+        document.addEventListener("click", listener);
+        document.getElementById("same").click();
+        wait(done);
+      });
+
+      afterEach(() => document.removeEventListener("click", listener));
+
+      it("keeps the scroll position unchanged", () => {
+        expect(window.scrollY).toBeCloseTo(444, -1);
       });
     });
   });
