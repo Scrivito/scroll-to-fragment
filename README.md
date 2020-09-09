@@ -55,9 +55,10 @@ scrollToFragment({
 
 If you are listening for any other events to trigger a scroll position update, simply call `scrollToFragment()` again. This will automatically stop the previous instance.
 
-## Caveats
+## Tips
 
 - Triggering an update on `popstate` or `hashchange` may result in unwanted scrolling after browser back and forward navigation.
+- If the scroll position after navigating back is wrong, we recommend using a dedicated package like [delayed-scroll-restoration-polyfill](https://github.com/janpaul123/delayed-scroll-restoration-polyfill).
 
 ## Development
 
