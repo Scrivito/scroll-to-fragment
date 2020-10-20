@@ -71,7 +71,6 @@ function handleDocumentClick(event: Event) {
 
   const anchor = closestAIncludingSelf(event.target as HTMLElement);
   if (!anchor || anchor.href.indexOf("#") === -1) return;
-  console.log(anchor.href, location.href);
   if (anchor.href.replace(/#.*/, "") === location.href.replace(/#.*/, "")) {
     throttle(startObserving);
   }
