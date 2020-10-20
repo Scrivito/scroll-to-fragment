@@ -1,4 +1,4 @@
-import * as History from "history";
+import type * as History from "history";
 
 interface Options {
   getElement?: (fragmentId: string) => Element | undefined;
@@ -60,7 +60,7 @@ function removeStopListener(eventName: string) {
 }
 
 function handleHistoryPush(
-  _location: History.Location<{}>,
+  _location: History.Location,
   action: History.Action
 ) {
   if (action === "PUSH") startObserving();
