@@ -40,5 +40,5 @@
     "test": "karma start --single-run",
     "watch": "karma start"
   },
-  "version": "1.0.7"
+  "version": "1.0.8"
 }
