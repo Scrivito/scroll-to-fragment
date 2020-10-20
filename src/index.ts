@@ -59,11 +59,16 @@ function removeStopListener(eventName: string) {
   document.removeEventListener(eventName, stopObserving);
 }
 
+function handleHistoryPush(update: History.Update): void; // history version 5
 function handleHistoryPush(
-  _location: History.Location,
+  location: History.Location,
   action: History.Action
+): void; // history version 4
+function handleHistoryPush(
+  update: History.Update & History.Location,
+  action?: History.Action
 ) {
-  if (action === "PUSH") startObserving();
+  if ("PUSH" === (action || update.action)) startObserving();
 }
 
 function handleDocumentClick(event: Event) {
@@ -107,7 +112,7 @@ function throttle(callback: () => void) {
 }
 
 let currentOptions: Readonly<Options>;
-let unlistenHistory: History.UnregisterCallback | undefined;
+let unlistenHistory: () => void | undefined;
 let documentObserver: MutationObserver | undefined;
 let observeTimeout: number | undefined;
 let throttleRequestId: number | undefined;
