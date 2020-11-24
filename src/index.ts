@@ -9,11 +9,9 @@ interface Options {
 export function scrollToFragment(options: Options = {}) {
   unmount();
 
-  currentOptions = {
-    getElement: options.getElement ?? getElementById,
-    history: options.history,
-    scrollIntoView: options.scrollIntoView ?? scrollIntoView,
-  };
+  getElement = options.getElement || getElementById;
+  history = options.history;
+  scrollIntoView = options.scrollIntoView || defaultScrollIntoView;
 
   mount();
 }
@@ -21,7 +19,7 @@ export function scrollToFragment(options: Options = {}) {
 function mount() {
   documentObserver = new MutationObserver(handleDomMutation);
   addEventListener("click", handleDocumentClick);
-  unlistenHistory = currentOptions.history?.listen(handleHistoryPush);
+  unlistenHistory = history?.listen(handleHistoryPush);
   startObserving();
 }
 
@@ -94,19 +92,19 @@ function adjustScrollPosition() {
   if (!hash) return;
 
   const fragmentId = decodeURIComponent(hash.substring(1));
-  const element = currentOptions.getElement.call(null, fragmentId);
-  if (element) currentOptions.scrollIntoView.call(null, element);
+  const element = getElement.call(null, fragmentId);
+  if (element) scrollIntoView.call(null, element);
 }
 
 function getLocation() {
-  return currentOptions.history?.location || location;
+  return history?.location || location;
 }
 
 function getElementById(id: string) {
   return document.getElementById(id);
 }
 
-function scrollIntoView(element: Element) {
+function defaultScrollIntoView(element: Element) {
   element.scrollIntoView();
 }
 
@@ -115,7 +113,10 @@ function throttle(callback: () => void) {
   throttleRequestId = requestAnimationFrame(callback);
 }
 
-let currentOptions: Readonly<Options>;
+let getElement: Options["getElement"];
+let history: Options["history"];
+let scrollIntoView: Options["scrollIntoView"];
+
 let unlistenHistory: () => void | undefined;
 let documentObserver: MutationObserver | undefined;
 let observeTimeout: number | undefined;
