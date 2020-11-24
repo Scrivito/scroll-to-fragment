@@ -35,7 +35,7 @@ function unmount() {
 
 function startObserving() {
   stopObserving();
-  if (!location.hash) return;
+  if (!getLocation().hash) return;
 
   STOP_EVENTS.forEach(addStopListener);
   documentObserver?.observe(document, OBSERVER_CONFIG);
@@ -76,7 +76,7 @@ function handleDocumentClick(event: Event) {
 
   const anchor = closestAIncludingSelf(event.target as HTMLElement);
   if (!anchor || !anchor.hash) return;
-  if (anchor.pathname === location.pathname) throttle(startObserving);
+  if (anchor.pathname === getLocation().pathname) throttle(startObserving);
 }
 
 function closestAIncludingSelf(element?: HTMLElement) {
@@ -90,10 +90,16 @@ function handleDomMutation() {
 }
 
 function adjustScrollPosition() {
-  if (!location.hash) return;
-  const fragmentId = decodeURIComponent(location.hash.substring(1));
+  const hash = getLocation().hash;
+  if (!hash) return;
+
+  const fragmentId = decodeURIComponent(hash.substring(1));
   const element = currentOptions.getElement.call(null, fragmentId);
   if (element) currentOptions.scrollIntoView.call(null, element);
+}
+
+function getLocation() {
+  return currentOptions.history?.location || location;
 }
 
 function getElementById(id: string) {
