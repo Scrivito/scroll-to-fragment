@@ -21,6 +21,8 @@ describe("scrollToFragment", function (this: { history: History }) {
     wait(done);
   });
 
+  afterEach(() => scrollToFragment());
+
   describe("with a URL hash", () => {
     beforeEach((done) => {
       location.hash = "foobar";
