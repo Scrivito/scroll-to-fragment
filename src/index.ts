@@ -75,10 +75,8 @@ function handleDocumentClick(event: Event) {
   if (event.defaultPrevented) return;
 
   const anchor = closestAIncludingSelf(event.target as HTMLElement);
-  if (!anchor || anchor.href.indexOf("#") === -1) return;
-  if (anchor.href.replace(/#.*/, "") === location.href.replace(/#.*/, "")) {
-    throttle(startObserving);
-  }
+  if (!anchor || !anchor.hash) return;
+  if (anchor.pathname === location.pathname) throttle(startObserving);
 }
 
 function closestAIncludingSelf(element?: HTMLElement) {
