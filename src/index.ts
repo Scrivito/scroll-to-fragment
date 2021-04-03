@@ -119,8 +119,8 @@ let scrollIntoView: Options["scrollIntoView"];
 
 let unlistenHistory: () => void | undefined;
 let documentObserver: MutationObserver | undefined;
-let observeTimeout: number | undefined;
-let throttleRequestId: number | undefined;
+let observeTimeout: ReturnType<typeof setTimeout> | undefined;
+let throttleRequestId: ReturnType<typeof requestAnimationFrame> | undefined;
 
 const OBSERVER_CONFIG = {
   attributes: true,
