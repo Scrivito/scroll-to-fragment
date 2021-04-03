@@ -32,16 +32,18 @@
   ],
   "license": "MIT",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/esm/index.js",
   "name": "scroll-to-fragment",
   "peerDependencies": {
     "history": "4 || 5"
   },
   "repository": "github:Scrivito/scroll-to-fragment",
   "scripts": {
-    "prepublishOnly": "rm -rf dist && npm test && tsc --build",
+    "build": "tsc && tsc --outDir dist/esm --target ES6 --declaration false",
+    "prepublishOnly": "rm -rf dist && npm test && npm run build",
     "test": "karma start --single-run",
     "watch": "karma start"
   },
+  "types": "dist/index.d.ts",
   "version": "1.0.11"
 }
