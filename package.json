@@ -1,19 +1,20 @@
 {
-  "dependencies": {},
   "description": "Make single page apps scroll according to the current URL hash.",
   "devDependencies": {
     "@types/history": "^4.7.8",
-    "@types/jasmine": "^3.6.2",
+    "@types/jasmine": "^3.6.9",
+    "@types/karma": "^6.1.0",
     "history": "^5.0.0",
-    "jasmine-core": "^3.6.0",
-    "karma": "^5.2.3",
+    "jasmine-core": "^3.7.1",
+    "karma": "^6.3.2",
     "karma-chrome-launcher": "^3.1.0",
     "karma-cli": "^2.0.0",
     "karma-firefox-launcher": "^2.1.0",
     "karma-jasmine": "^4.0.1",
-    "karma-typescript": "^5.2.0",
-    "prettier": "^2.2.0",
-    "typescript": "^4.1.2"
+    "karma-typescript": "^5.5.1",
+    "prettier": "^2.2.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   },
   "files": [
     "dist",
@@ -38,9 +39,9 @@
   },
   "repository": "github:Scrivito/scroll-to-fragment",
   "scripts": {
-    "prepare": "rm -rf dist/* && npm test && tsc --build",
+    "prepublishOnly": "rm -rf dist && npm test && tsc --build",
     "test": "karma start --single-run",
     "watch": "karma start"
   },
-  "version": "1.0.10"
+  "version": "1.0.11"
 }
