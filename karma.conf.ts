@@ -1,4 +1,6 @@
-module.exports = function (config) {
+import type { Config } from "karma";
+
+export default (config: Config) => {
   config.set({
     frameworks: ["jasmine", "karma-typescript"],
     files: ["spec/**/*.ts", "src/**/*.ts"],
