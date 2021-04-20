@@ -1,4 +1,5 @@
 {
+  "browser": "dist/index.js",
   "description": "Make single page apps scroll according to the current URL hash.",
   "devDependencies": {
     "@types/history": "^4.7.8",
@@ -45,5 +46,5 @@
     "watch": "karma start"
   },
   "types": "dist/index.d.ts",
-  "version": "1.0.11"
+  "version": "1.0.12"
 }
