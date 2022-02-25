@@ -1,7 +1,7 @@
 import { scrollToFragment } from "../src/index";
-import { createBrowserHistory, History } from "history";
+import { createBrowserHistory } from "history";
 
-describe("scrollToFragment", function (this: { history: History }) {
+describe("scrollToFragment", () => {
   beforeEach((done) => {
     document.body.innerHTML = "";
     document.body.insertAdjacentHTML(
@@ -140,12 +140,12 @@ describe("scrollToFragment", function (this: { history: History }) {
   });
 
   describe("with history", () => {
-    beforeEach(() => {
+    beforeEach(function () {
       this.history = createBrowserHistory();
     });
 
     describe("on click", () => {
-      beforeEach((done) => {
+      beforeEach(function (done) {
         scrollToFragment({
           history: this.history,
           scrollIntoView: () => window.scrollTo(0, 123),
@@ -160,7 +160,7 @@ describe("scrollToFragment", function (this: { history: History }) {
     });
 
     describe("on PUSH", () => {
-      beforeEach((done) => {
+      beforeEach(function (done) {
         scrollToFragment({ history: this.history });
         this.history.push("other.html#bottom10400");
         wait(done);
