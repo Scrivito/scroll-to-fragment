@@ -1,4 +1,4 @@
-import { scrollToFragment } from "../src/index";
+import { scrollToFragment, stopScrollToFragment } from "../src/index";
 import { createBrowserHistory } from "history";
 
 describe("scrollToFragment", () => {
@@ -14,14 +14,30 @@ describe("scrollToFragment", () => {
       <a href="index.html#bottom10400" id="same">Same page</a>
       <a href="#bottom10400" id="hashOnly">Hash only</a>
       <a href="#bottom10400"><span id="spanInA">Nested</span></a>
-      `
+      `,
     );
-    history.replaceState(null, null, "index.html");
+    history.replaceState(null, "", "index.html");
     window.scrollTo(0, 333);
     wait(done);
   });
 
-  afterEach(() => scrollToFragment());
+  afterEach(() => stopScrollToFragment());
+
+  describe("stopScrollToFragment", () => {
+    let scrollIntoView: jasmine.Spy;
+
+    beforeEach((done) => {
+      scrollIntoView = jasmine.createSpy("scrollIntoView");
+      scrollToFragment({ scrollIntoView });
+      stopScrollToFragment();
+      document.getElementById("same")?.click();
+      wait(done);
+    });
+
+    it("no longer calls the callback", () => {
+      expect(scrollIntoView).not.toHaveBeenCalled();
+    });
+  });
 
   describe("with a URL hash", () => {
     beforeEach((done) => {
@@ -37,7 +53,7 @@ describe("scrollToFragment", () => {
     describe("clicking a link to a different page", () => {
       beforeEach((done) => {
         window.scrollTo(0, 444);
-        document.getElementById("other").click();
+        document.getElementById("other")?.click();
         wait(done);
       });
 
@@ -49,7 +65,7 @@ describe("scrollToFragment", () => {
     describe("clicking a hash link to the same page", () => {
       beforeEach((done) => {
         window.scrollTo(0, 444);
-        document.getElementById("same").click();
+        document.getElementById("same")?.click();
         wait(done);
       });
 
@@ -67,7 +83,7 @@ describe("scrollToFragment", () => {
       beforeEach((done) => {
         window.scrollTo(0, 444);
         document.addEventListener("click", listener);
-        document.getElementById("same").click();
+        document.getElementById("same")?.click();
         wait(done);
       });
 
@@ -81,7 +97,7 @@ describe("scrollToFragment", () => {
 
   describe("with a URL hash but no matching fragment", () => {
     beforeEach((done) => {
-      history.replaceState(null, null, "index.html#barbaz");
+      history.replaceState(null, "", "index.html#barbaz");
       scrollToFragment();
       wait(done);
     });
@@ -94,7 +110,7 @@ describe("scrollToFragment", () => {
       beforeEach((done) => {
         document
           .getElementById("bottom10400")
-          .insertAdjacentHTML("beforebegin", "<h1 id='barbaz'>H1</h1>");
+          ?.insertAdjacentHTML("beforebegin", "<h1 id='barbaz'>H1</h1>");
         wait(done);
       });
 
@@ -107,7 +123,7 @@ describe("scrollToFragment", () => {
   describe("clicking an element wrapped by a hash link", () => {
     beforeEach((done) => {
       scrollToFragment({ scrollIntoView: () => window.scrollTo(0, 123) });
-      document.getElementById("spanInA").click();
+      document.getElementById("spanInA")?.click();
       wait(done);
     });
 
@@ -130,7 +146,7 @@ describe("scrollToFragment", () => {
   describe("with scrollIntoView", () => {
     beforeEach((done) => {
       scrollToFragment({ scrollIntoView: () => window.scrollTo(0, 123) });
-      document.getElementById("hashOnly").click();
+      document.getElementById("hashOnly")?.click();
       wait(done);
     });
 
@@ -150,7 +166,7 @@ describe("scrollToFragment", () => {
           history: this.history,
           scrollIntoView: () => window.scrollTo(0, 123),
         });
-        document.getElementById("hashOnly").click();
+        document.getElementById("hashOnly")?.click();
         wait(done);
       });
 
