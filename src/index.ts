@@ -7,23 +7,23 @@ interface Options {
 }
 
 export function scrollToFragment(options: Options = {}) {
-  unmount();
+  stopScrollToFragment();
 
   getElement = options.getElement || getElementById;
   history = options.history;
   scrollIntoView = options.scrollIntoView || defaultScrollIntoView;
 
-  mount();
+  startScrollToFragment();
 }
 
-function mount() {
+function startScrollToFragment() {
   documentObserver = new MutationObserver(handleDomMutation);
   addEventListener("click", handleDocumentClick);
   unlistenHistory = history?.listen(handleHistoryPush);
   startObserving();
 }
 
-function unmount() {
+export function stopScrollToFragment() {
   stopObserving();
   removeEventListener("click", handleDocumentClick);
   if (unlistenHistory) unlistenHistory();
@@ -60,11 +60,11 @@ function removeStopListener(eventName: string) {
 function handleHistoryPush(update: History.Update): void; // history version 5
 function handleHistoryPush(
   location: History.Location,
-  action: History.Action
+  action: History.Action,
 ): void; // history version 4
 function handleHistoryPush(
   update: History.Update & History.Location,
-  action?: History.Action
+  action?: History.Action,
 ) {
   if ("PUSH" === (action || update.action)) startObserving();
 }

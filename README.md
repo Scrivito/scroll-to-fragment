@@ -55,6 +55,16 @@ scrollToFragment({
 
 If you are listening for any other events to trigger a scroll position update, simply call `scrollToFragment()` again. This will automatically stop the previous instance.
 
+### Stopping
+
+If you want to remove all listeners and observers set up by `scrollToFragment()`, you can call:
+
+```js
+import { stopScrollToFragment } from "scroll-to-fragment";
+
+stopScrollToFragment();
+```
+
 ## Tips
 
 - Triggering an update on `popstate` or `hashchange` may result in unwanted scrolling after browser back and forward navigation.

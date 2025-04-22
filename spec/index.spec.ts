@@ -1,4 +1,4 @@
-import { scrollToFragment } from "../src/index";
+import { scrollToFragment, stopScrollToFragment } from "../src/index";
 import { createBrowserHistory } from "history";
 
 describe("scrollToFragment", () => {
@@ -21,7 +21,23 @@ describe("scrollToFragment", () => {
     wait(done);
   });
 
-  afterEach(() => scrollToFragment());
+  afterEach(() => stopScrollToFragment());
+
+  describe("stopScrollToFragment", () => {
+    let scrollIntoView: jasmine.Spy;
+
+    beforeEach((done) => {
+      scrollIntoView = jasmine.createSpy("scrollIntoView");
+      scrollToFragment({ scrollIntoView });
+      stopScrollToFragment();
+      document.getElementById("same")?.click();
+      wait(done);
+    });
+
+    it("no longer calls the callback", () => {
+      expect(scrollIntoView).not.toHaveBeenCalled();
+    });
+  });
 
   describe("with a URL hash", () => {
     beforeEach((done) => {
